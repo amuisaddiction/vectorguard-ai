@@ -1,0 +1,32 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from .routes import scan, alerts, health
+
+app = FastAPI(
+    title="VectorGuard AI API",
+    description="Backend API for VectorGuard AI pipeline",
+    version="1.0.0",
+    docs_url="/docs"
+)
+
+# CORS middleware to allow requests from the frontend (Member B's work)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],  # Frontend dev server
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Register routers
+app.include_router(scan.router)
+app.include_router(alerts.router)
+app.include_router(health.router)
+
+@app.on_event("startup")
+async def startup_event():
+    # Initialize SQLite DB via alert_logger.py
+    # from backend.core.alert_logger import init_db
+    # await init_db()
+    pass
+
