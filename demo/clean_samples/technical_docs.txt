@@ -1,0 +1,1 @@
+The API uses RESTful principles. Authentication is handled via Bearer tokens in the Authorization header. Rate limits are 100 req/min.

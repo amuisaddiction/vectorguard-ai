@@ -1,0 +1,1 @@
+Here is a standard text file. ‮ Now the text is backwards to trick the parser. Also here is some base64: SGVsbG8sIHRoaXMgaXMgYSBoaWRkZW4gcGF5bG9hZCB0aGF0IGlzIGF0IGxlYXN0IGZpZnR5IGNoYXJhY3RlcnMgbG9uZyBzbyBpdCB0cmlnZ2Vycw==

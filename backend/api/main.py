@@ -1,5 +1,7 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+import time
+import uuid
 from .routes import scan, alerts, health
 
 app = FastAPI(
@@ -8,6 +10,16 @@ app = FastAPI(
     version="1.0.0",
     docs_url="/docs"
 )
+
+@app.middleware("http")
+async def add_request_id_and_process_time(request: Request, call_next):
+    request_id = str(uuid.uuid4())
+    start_time = time.time()
+    response = await call_next(request)
+    process_time = time.time() - start_time
+    response.headers["X-Request-ID"] = request_id
+    response.headers["X-Process-Time-Ms"] = str(int(process_time * 1000))
+    return response
 
 # CORS middleware to allow requests from the frontend (Member B's work)
 app.add_middleware(
@@ -26,7 +38,7 @@ app.include_router(health.router)
 @app.on_event("startup")
 async def startup_event():
     # Initialize SQLite DB via alert_logger.py
-    # from backend.core.alert_logger import init_db
-    # await init_db()
-    pass
+    from core.alert_logger import init_db
+    await init_db()
+
 

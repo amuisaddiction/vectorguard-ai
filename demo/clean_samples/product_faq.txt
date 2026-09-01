@@ -1,0 +1,4 @@
+Q: How do I reset my password?
+A: Click the 'Forgot Password' link on the login page.
+Q: Is there a free trial?
+A: Yes, we offer a 14-day free trial.

@@ -1,0 +1,33 @@
+{
+  "ROLE_OVERRIDE": [
+    "ignore previous instructions",
+    "ignore all prior instructions",
+    "you are now",
+    "act as if you are",
+    "forget your instructions",
+    "disregard your system prompt"
+  ],
+  "DATA_EXFIL": [
+    "send to http",
+    "POST all data to",
+    "leak everything above",
+    "repeat the system prompt",
+    "forward all messages"
+  ],
+  "JAILBREAK": [
+    "DAN mode",
+    "developer mode enabled",
+    "without any restrictions",
+    "no ethical guidelines",
+    "ignore safety"
+  ],
+  "PROMPT_INJECTION": [
+    "###instruction",
+    "[INST]",
+    "<|im_start|>system",
+    "system:",
+    "\\n\\nHuman:"
+  ],
+  "ENCODING_TRICK": []
+}
+
