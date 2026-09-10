@@ -24,8 +24,7 @@ def scan_chunk(chunk: Chunk) -> PatternResult:
     for category, patterns in RULES.items():
         for pattern in patterns:
             # Simple substring or regex check
-            if re.search(re.escape(pattern), chunk.text, re.IGNORECASE) or \
-               re.search(pattern, chunk.text, re.IGNORECASE):
+            if re.search(re.escape(pattern), chunk.text, re.IGNORECASE):
                 matched_rules.append(pattern)
                 threat_types.add(category)
                 

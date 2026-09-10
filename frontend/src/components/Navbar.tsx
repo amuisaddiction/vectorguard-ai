@@ -9,7 +9,7 @@ export const Navbar: React.FC = () => {
 
   useEffect(() => {
     getHealth().then(res => {
-      setIsHealthy(res.status === 'ok');
+      setIsHealthy(res.status === 'healthy' || res.status === 'ok');
     }).catch(() => {
       setIsHealthy(false);
     });

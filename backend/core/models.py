@@ -43,6 +43,9 @@ class ScanResult(BaseModel):
 class SemanticResult(BaseModel):
     is_adversarial: bool
     confidence: float
+    threat_type: Optional[str] = None
+    reason: str = ""
+
 class ContextResult(BaseModel):
     flagged_chunk_ids: List[str]
     confidence: float

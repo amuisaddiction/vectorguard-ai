@@ -39,6 +39,22 @@ async def analyze_context(chunks: List[Chunk]) -> ContextResult:
                 temperature=0.0
             )
             content = response.choices[0].message.content
+        elif provider == "openrouter":
+            from openai import AsyncOpenAI
+            client = AsyncOpenAI(
+                base_url="https://openrouter.ai/api/v1",
+                api_key=os.getenv("OPENROUTER_API_KEY")
+            )
+            response = await client.chat.completions.create(
+                model=os.getenv("OPENROUTER_MODEL", "meta-llama/llama-3-8b-instruct:free"),
+                messages=[
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": combined_text}
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.0
+            )
+            content = response.choices[0].message.content
         elif provider == "anthropic":
             from anthropic import AsyncAnthropic
             client = AsyncAnthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))

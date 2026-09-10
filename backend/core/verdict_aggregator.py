@@ -24,6 +24,13 @@ def aggregate_verdict(
     threshold = float(os.getenv("THREAT_THRESHOLD", "0.65"))
     is_threat = score > threshold
     
+    # OFFLINE DEMO FIX: If we don't have OpenAI keys, the semantic and context agents return 0.0.
+    # To make the demo work locally, if the pattern scanner catches an obvious threat, we auto-flag it.
+    if pattern.confidence >= 0.75:
+        is_threat = True
+        score = max(score, pattern.confidence)
+
+    
     # Combine and deduplicate threat types
     threat_types = set(pattern.threat_types)
     if semantic.threat_type:
