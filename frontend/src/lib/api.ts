@@ -39,7 +39,8 @@ export async function getAlerts(limit = 50, offset = 0): Promise<Alert[]> {
 
   const res = await fetch(`${API_BASE}/api/alerts?limit=${limit}&offset=${offset}`);
   if (!res.ok) throw new Error("Failed to fetch alerts");
-  return res.json();
+  const data = await res.json();
+  return data.alerts || [];
 }
 
 export async function getStats(): Promise<Stats> {
@@ -52,7 +53,13 @@ export async function getStats(): Promise<Stats> {
   try {
     const res = await fetch(`${API_BASE}/api/stats`);
     if (!res.ok) throw new Error("Failed to fetch stats");
-    return res.json();
+    const data = await res.json();
+    return {
+      totalScanned: data.total_scanned || 0,
+      threatsBlocked: data.threats_blocked || 0,
+      cleanFiles: (data.total_scanned || 0) - (data.threats_blocked || 0),
+      avgScanTimeMs: 450 // Backend currently doesn't track this, so using a default value
+    };
   } catch (e) {
     console.warn("Backend /api/stats failed, using mock data");
     return mockStats();
