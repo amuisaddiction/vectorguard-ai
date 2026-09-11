@@ -1,7 +1,8 @@
 import type { ScanResult, Alert, Stats, HealthStatus } from './types';
 import { mockScanResult, mockAlerts, mockStats, mockHealth } from './mock-data';
 
-const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const rawApiUrl = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_BASE = rawApiUrl.replace(/\/$/, ""); // Automatically removes accidental trailing slashes
 const USE_MOCK = import.meta.env.VITE_USE_MOCK === "true";
 
 export async function scanFile(file: File): Promise<ScanResult> {
