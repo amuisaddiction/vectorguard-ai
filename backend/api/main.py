@@ -24,7 +24,7 @@ async def add_request_id_and_process_time(request: Request, call_next):
 # CORS middleware to allow requests from the frontend (Member B's work)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Frontend dev server
+    allow_origins=["*"],  # Allow Vercel and Localhost
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
