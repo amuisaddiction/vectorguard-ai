@@ -35,6 +35,10 @@ app.include_router(scan.router)
 app.include_router(alerts.router)
 app.include_router(health.router)
 
+@app.get("/")
+async def root():
+    return {"status": "ok", "message": "VectorGuard AI Backend is running"}
+
 @app.on_event("startup")
 async def startup_event():
     # Initialize SQLite DB via alert_logger.py
