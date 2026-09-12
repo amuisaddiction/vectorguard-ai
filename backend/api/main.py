@@ -11,6 +11,10 @@ app = FastAPI(
     docs_url="/docs"
 )
 
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
+
 @app.middleware("http")
 async def add_request_id_and_process_time(request: Request, call_next):
     request_id = str(uuid.uuid4())
