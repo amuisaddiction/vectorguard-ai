@@ -28,8 +28,11 @@ async def add_request_id_and_process_time(request: Request, call_next):
 # CORS middleware to allow requests from the frontend (Member B's work)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allow all origins for Vercel deployment
-    allow_credentials=False, # Must be False when origins is "*"
+    allow_origins=[
+        "http://localhost:5173",
+        "https://vectorguard-ai-green.vercel.app"
+    ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
