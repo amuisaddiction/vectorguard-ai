@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { AlertsTable } from '../components/AlertsTable';
 import { getAlerts } from '../lib/api';
 import type { Alert } from '../lib/types';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Download } from 'lucide-react';
 
 export const Alerts: React.FC = () => {
   const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -20,11 +20,37 @@ export const Alerts: React.FC = () => {
       });
   }, []);
 
+  const exportToCSV = () => {
+    if (alerts.length === 0) return;
+    const headers = "Timestamp,Threat Types,Confidence,Source,File ID\n";
+    const csvContent = alerts.map(a => 
+      `${a.timestamp},"${a.threat_types.join(', ')}",${a.confidence},${a.source},${a.file_id}`
+    ).join("\n");
+    
+    const blob = new Blob([headers + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = "vectorguard_security_report.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-in fade-in duration-300">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-text-primary">Security Alerts Log</h1>
-        <p className="text-text-muted">Review all detected and neutralized threats.</p>
+      <div className="mb-8 flex justify-between items-start">
+        <div>
+          <h1 className="text-2xl font-bold text-text-primary">Security Alerts Log</h1>
+          <p className="text-text-muted">Review all detected and neutralized threats.</p>
+        </div>
+        <button 
+          onClick={exportToCSV}
+          disabled={alerts.length === 0 || loading}
+          className="flex items-center gap-2 px-4 py-2 bg-surface-lighter hover:bg-surface-light border border-border text-text-primary rounded-lg transition-colors disabled:opacity-50"
+        >
+          <Download className="w-4 h-4" />
+          Export CSV
+        </button>
       </div>
 
       {loading ? (

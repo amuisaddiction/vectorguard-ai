@@ -12,7 +12,7 @@ def sanitize(original_text: str, threats: List[Threat]) -> str:
     for threat in sorted_threats:
         start = threat.start_char
         end = threat.end_char
-        sanitized = sanitized[:start] + "[REDACTED — VectorGuard Security Policy]" + sanitized[end:]
+        sanitized = sanitized[:start] + "[SECURITY BREACH BLOCKED - IP LOGGED BY VECTORGUARD]" + sanitized[end:]
         
     return sanitized
 
